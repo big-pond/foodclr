@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WdgEditMeal</class>
+ <widget class="QWidget" name="WdgEditMeal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1035</width>
+    <height>499</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_4">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QToolButton" name="tbAddMealToDay">
+          <property name="geometry">
+           <rect>
+            <x>5</x>
+            <y>1</y>
+            <width>38</width>
+            <height>38</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableView" name="tvEditMeal"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_3">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QToolButton" name="tbAddMeal">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>60</y>
+            <width>38</width>
+            <height>38</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="foodcl.qrc">
+            <normaloff>:/resources/prev.png</normaloff>:/resources/prev.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QToolButton" name="tbDelMeal">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>120</y>
+            <width>38</width>
+            <height>38</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="foodcl.qrc">
+            <normaloff>:/resources/minus.png</normaloff>:/resources/minus.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="FrmFood">
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QFrame" name="WdgDays">
+            <property name="minimumSize">
+             <size>
+              <width>550</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QToolButton" name="tbAdd">
+             <property name="geometry">
+              <rect>
+               <x>4</x>
+               <y>1</y>
+               <width>38</width>
+               <height>38</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/plus.png</normaloff>:/resources/plus.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbDel">
+             <property name="geometry">
+              <rect>
+               <x>124</x>
+               <y>1</y>
+               <width>38</width>
+               <height>38</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/minus.png</normaloff>:/resources/minus.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbAddGroup">
+             <property name="geometry">
+              <rect>
+               <x>44</x>
+               <y>1</y>
+               <width>38</width>
+               <height>38</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/addgrp.png</normaloff>:/resources/addgrp.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbMove">
+             <property name="geometry">
+              <rect>
+               <x>164</x>
+               <y>1</y>
+               <width>38</width>
+               <height>38</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/prmove.png</normaloff>:/resources/prmove.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>212</x>
+               <y>10</y>
+               <width>40</width>
+               <height>13</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Search:</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="leFind">
+             <property name="geometry">
+              <rect>
+               <x>252</x>
+               <y>10</y>
+               <width>170</width>
+               <height>20</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbNext">
+             <property name="geometry">
+              <rect>
+               <x>524</x>
+               <y>8</y>
+               <width>24</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/next.png</normaloff>:/resources/next.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbEdit">
+             <property name="geometry">
+              <rect>
+               <x>84</x>
+               <y>1</y>
+               <width>38</width>
+               <height>38</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/pen.png</normaloff>:/resources/pen.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+            <widget class="QLabel" name="lbFound">
+             <property name="geometry">
+              <rect>
+               <x>450</x>
+               <y>12</y>
+               <width>22</width>
+               <height>13</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="lbFound_2">
+             <property name="geometry">
+              <rect>
+               <x>478</x>
+               <y>12</y>
+               <width>14</width>
+               <height>13</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>of</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="lbFoundCount">
+             <property name="geometry">
+              <rect>
+               <x>493</x>
+               <y>12</y>
+               <width>22</width>
+               <height>13</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+            <widget class="QToolButton" name="tbPrev">
+             <property name="geometry">
+              <rect>
+               <x>424</x>
+               <y>8</y>
+               <width>24</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="foodcl.qrc">
+               <normaloff>:/resources/prev.png</normaloff>:/resources/prev.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="foodcl.qrc"/>
+ </resources>
+ <connections/>
+</ui>

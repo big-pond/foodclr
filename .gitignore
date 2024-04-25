@@ -1,0 +1,16 @@
+
+.vscode/
+
+__pycache__/
+
+db_temp/
+
+env/
+
+temp/
+
+/.pylintrc
+
+/foodcl.ini
+
+/*.user

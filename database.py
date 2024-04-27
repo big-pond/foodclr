@@ -11,7 +11,6 @@ class Database(QObject):
 
     def __init__(self, parent: QObject | None = ...) -> None:
         super().__init__(parent)
-        # self.products_query_str = "SELECT * FROM products WHERE products_id = ?"
         self.deficit_color = "#0000bb"
         self.norm_color = "#007000"
         self.excess_color = "#dd0000"
@@ -126,6 +125,18 @@ class Database(QObject):
         self.daysmodel.setHeaderData(7, Qt.Horizontal, self.tr("My\nweight,\nkg")) # Мой\nвес,\nкг
         self.daysmodel.setHeaderData(8, Qt.Horizontal, self.tr("Waist,\ncm"))
         self.daysmodel.setHeaderData(9, Qt.Horizontal, self.tr("Hips,\ncm"))
+
+    def setMealModelHeaders(self):
+        self.mealmodel.setHeaderData(0, Qt.Horizontal, self.tr("id"))   #id
+        self.mealmodel.setHeaderData(1, Qt.Horizontal, self.tr("Time"))   #Время
+        self.mealmodel.setHeaderData(2, Qt.Horizontal, self.tr("products_id"))  #id Продукта (блюда)
+        self.mealmodel.setHeaderData(3, Qt.Horizontal, self.tr("Product (dish) name"))  #Продукт (блюдо)
+        self.mealmodel.setHeaderData(4, Qt.Horizontal, self.tr("Weight,\ng"))  #Вес, г
+        self.mealmodel.setHeaderData(5, Qt.Horizontal, self.tr("Calorie content\nper 100 g,\nkcal"))  #Калорийность 100 г, ккал
+        self.mealmodel.setHeaderData(6, Qt.Horizontal, self.tr("Calorie\ncontent,\n kcal"))  #Калорийность,\n ккал
+        self.mealmodel.setHeaderData(7, Qt.Horizontal, self.tr("P,\ng"))  # Б,г
+        self.mealmodel.setHeaderData(8, Qt.Horizontal, self.tr("F,\ng"))  # Ж,г
+        self.mealmodel.setHeaderData(9, Qt.Horizontal, self.tr("C,\ng"))  # У,г
 
     def signin(self, login, password):
         self.current_users_id = -1
@@ -268,7 +279,6 @@ class Database(QObject):
             count = int(query.record().value(0))
         return count
 
-        
     def getLastWeight(self):
         weight = 0.0
         print("self.current_periods_id",self.current_periods_id)
@@ -370,6 +380,72 @@ class Database(QObject):
 
         return sum_param, tooltip
 
+    def execMealSumQuery(self, id_, mdate):
+        sum_w = sum_k = sum_p = sum_f = sum_c = 0.0
+        query = QSqlQuery(self.db)
+        query.prepare("SELECT sum(meals.weight) AS w, "
+            "sum(meals.weight*products.calory/100.0) AS kc, "
+            "sum(meals.weight*products.protein/100.0) AS prot, "
+            "sum(meals.weight*products.fat/100.0) AS fats, "
+            "sum(meals.weight*products.carbohydrate/100.0) AS carb "
+            "FROM meals, products WHERE meals.products_id=products.id "
+            "AND meals.days_id=?")
+        query.bindValue(0, id_)
+        print("execMealSunQuery", id_)
+        query.exec()
+        if query.next():
+            if query.value("w"):
+                sum_w = float(query.value("w"))
+            if query.value("kc"):
+                sum_k = float(query.value("kc"))
+            if query.value("prot"):
+                sum_p = float(query.value("prot"))
+            if query.value("fats"):
+                sum_f = float(query.value("fats"))
+            if query.value("carb"):
+                sum_c = float(query.value("carb"))
+        k_color = self.norm_color
+        p_color = self.norm_color
+        f_color = self.norm_color
+        c_color = self.norm_color
+
+        norm_kcal, norm_prot, norm_fat, norm_carb, pm_prot, pm_fat, pm_carb = self.calcNormCPFC()
+
+        if sum_k<1200.0:
+            k_color = self.deficit_color
+        elif sum_k>norm_kcal:
+            k_color = self.excess_color
+        if sum_p<(norm_prot-pm_prot):
+            p_color = self.deficit_color
+        elif sum_p>(norm_prot+pm_prot):
+            p_color = self.excess_color
+        if sum_f<(norm_fat-pm_fat):
+            f_color = self.deficit_color
+        elif sum_f>(norm_fat+pm_fat):
+            f_color = self.excess_color
+        if sum_c<(norm_carb-pm_carb):
+            c_color = self.deficit_color
+        elif sum_c>(norm_carb+pm_carb):
+            c_color = self.excess_color
+
+        sum_param = self.tr(f'<span style="font-style:italic">Total {mdate} average:</span>'
+                    f' {sum_w:.1f} g'
+                    f'<font color="{k_color}">&nbsp;&nbsp;  {sum_k:.1f} kcal </font>'
+                    f'<font color="{p_color}">&nbsp;&nbsp; P: {sum_p:.1f} g</font>'
+                    f'<font color="{f_color}">&nbsp;&nbsp; F: {sum_f:.1f} g</font>'
+                    f'<font color="{c_color}">&nbsp;&nbsp; C: {sum_c:.1f} g</font>')
+        
+        tooltip = self.tr(f'Norm:<br><font color="{self.norm_color}">'
+            f'&nbsp;&nbsp; 1200-{norm_kcal:.1f} kcal<br>'
+            f'&nbsp;&nbsp; P: {norm_prot:.1f}±{pm_prot:.1f} g<br>'
+            f'&nbsp;&nbsp; F: {norm_fat:.1f}±{pm_fat:.1f} g<br>'
+            f'&nbsp;&nbsp; C: {norm_carb:.1f}±{pm_carb:.1f} g.</font><br>'
+            f'<font color="{self.deficit_color}">█ This color shows values that are <b>less</b> than the norm</font><br>'
+            f'<font color="{self.norm_color}">█ this color shows values that <b>correspond</b> to the norm</font><br>'
+            f'<font color="{self.excess_color}">█ this color shows values that <b>exceed</b> the norm.</font>'
+            )
+        return sum_param, tooltip
+
     def calcNormCPFC(self): #, double &kcal, double &prot, double &fat, double &carb, double &pm_prot, double &pm_fat, double &pm_carb
         query = QSqlQuery(self.db)
         query.prepare("SELECT `birthdate`, `gender` FROM `users` WHERE `id`=?;")
@@ -410,6 +486,21 @@ class Database(QObject):
         #    qDebug() << fat << "+-" << pm_fat;
         #    qDebug() << carb << "+-" << pm_carb;
         return kcal, prot, fat, carb, pm_prot, pm_fat, pm_carb
+
+    def execMealQuery(self, id_, mdate):
+        query = QSqlQuery(self.db)
+        query.prepare("SELECT meals.id, meals.mtime, meals.products_id, "
+                        "products.name, meals.weight, products.calory, "
+                        "round(products.calory*meals.weight/100.0, 1) as ccal, "
+                        "round(products.protein*meals.weight/100.0, 1) as prot, "
+                        "round(products.fat*meals.weight/100.0, 1) as fat, "
+                        "round(products.carbohydrate*meals.weight/100.0, 1) as carb "
+                        "FROM meals, products WHERE meals.products_id=products.id AND meals.days_id=? "
+                        "ORDER BY meals.mtime")
+        query.bindValue(0, id_)
+        query.exec()
+        self.mealmodel.setQuery(query)
+        self.setMealModelHeaders()
 
     def appendPeriod(self, start_date, height, weight, activity, prot, fat, carb, variation, note):
         query = QSqlQuery(self.db)

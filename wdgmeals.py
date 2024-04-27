@@ -2,7 +2,7 @@
 
 
 from PyQt5.QtCore import Qt, QDate, QModelIndex, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QInputDialog, QMessageBox, QProgressDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QInputDialog, QMessageBox, QProgressDialog, QTableView
 from PyQt5.QtSql import QSqlDatabase
 # from database import 
 
@@ -27,10 +27,13 @@ class WdgMeals(QWidget):
         self.ui.tbEditMeal.clicked.connect(self.editMeal)
         self.ui.tbDelMeal.clicked.connect(self.deleteMeal)
         # self.ui.tbAddMeal.clicked.connect(self.goEditMeal)
+
         
     def setDatabase(self, database):
         self.database  = database
         self.ui.tvDays.setModel(database.daysmodel)
+        self.ui.tvMeals.setModel(database.mealmodel)
+        self.ui.tvDays.selectionModel().currentRowChanged.connect(self.updateMealTableView)
 
     def appendDay(self):
         model = self.ui.tvDays.model()
@@ -133,3 +136,22 @@ class WdgMeals(QWidget):
             self.ui.lbDaySum.setToolTip(tooltip)
             row_count = self.database.daysmodel.rowCount()
             self.ui.tvDays.setCurrentIndex(self.database.daysmodel.index(row_count-1, 0))
+
+    def updateMealTableView(self, current: QModelIndex , previous: QModelIndex):
+        record = self.ui.tvDays.model().record(current.row())
+        id_ = int(record.value("id"))
+        mdate = str(record.value("mdate"))
+        self.ui.lbMealDate.setText(f'<html><head/><body><p><span style=" font-size:10pt; font-weight:600; color:#0000ff;">Food eaten</span>'
+                                   f'<span style=" font-size:10pt; font-weight:600; color:#aa0000;"> {mdate}</span></p></body></html>')
+
+        self.database.execMealQuery(id_, mdate)
+        self.formatMealTableView()
+        sum_param, tooltip = self.database.execMealSumQuery(id_, mdate)
+        self.ui.lbMealSum.setText(sum_param)
+        self.ui.lbMealSum.setToolTip(tooltip)
+
+    def formatMealTableView(self):
+        self.ui.tvMeals.setColumnHidden(0, True)
+        self.ui.tvMeals.setColumnHidden(2, True)
+        self.ui.tvMeals.resizeColumnsToContents()
+        self.ui.tvMeals.resizeRowsToContents()

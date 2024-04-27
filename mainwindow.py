@@ -59,6 +59,8 @@ class MainWindow(QMainWindow):
         self.ui.pbSignin.clicked.connect(self.signin)
         self.ui.pbSignup.clicked.connect(self.signup)
         self.pbLogout.clicked.connect(self.logout)
+        self.ui.actionAbout.triggered.connect(self.about)
+        self.ui.actionAbout_Qt.triggered.connect(self.aboutQt)
 
         if self.database.connectToSQLiteDatabase("./db/foodcl_db.sqlite3"):
             print("db Ok")
@@ -66,7 +68,7 @@ class MainWindow(QMainWindow):
             self.wdgperiods.setDatabase(self.database)
             self.wdgmeals.setDatabase(self.database)
             self.wdgeditmeal.setDatabase(self.database)
-
+        self.copyright = '<p><span style="font-size:10pt; color:#000055;">Copyright &copy; 2024 Big Pond</span></p>'
         self.readSettings()
             
     def writeSettings(self):
@@ -163,3 +165,12 @@ class MainWindow(QMainWindow):
         self.lbUser.setText(f'User: {self.database.current_user_name}')
         self.ui.tabWidget.setCurrentIndex(MainWindow.SIGNIN)
         self.pbLogout.setEnabled(False)
+
+    def about(self):
+        QMessageBox.about(self, self.tr('About'), 
+                          '<h2 align="center"><font color="#008000">foodcl 1.0 alpha</font></h2>'
+                          '<p align="center"><font color="#000080" face="Times New Roman" size="4">'
+                          f'<b>Calorie Counter</b></font></p><p>{self.copyright}</p>')
+
+    def aboutQt(self):
+        QMessageBox.aboutQt(self)
